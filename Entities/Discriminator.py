@@ -4,7 +4,7 @@ from torch.nn import Sequential, Conv2d, LeakyReLU, Sigmoid, Flatten, BatchNorm2
 from torch.optim import Adam
 from torch.utils.data import Dataset
 
-from Entities.Extensions import device, transform_func, get_dataloader
+from Entities.Extensions import device, transform_func
 from Entities.Generator import Generator
 
 
@@ -70,7 +70,7 @@ class Discriminator(torch.Module):
     def train_model(cls):
         cls.training_set = torchvision.datasets.FashionMNIST(root=".", train=True, download=True,
                                                              transform=transform_func)
-        train_loader = get_dataloader(cls.training_set, cls.batch_size, shuffle=True)
+        return cls.training_set
 
     @classmethod
     def work_model(cls):
