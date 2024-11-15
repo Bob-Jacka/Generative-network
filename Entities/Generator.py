@@ -65,7 +65,6 @@ class Generator(torch.Module):
 
     @classmethod
     def test_model(cls):
-        transform = T.compose([T.ToTensor(), T.Normalize([0.5], [0.5])])
         cls.test_set = torchvision.datasets.MNIST(root='.', train=False, download=True, transform=transform_func)
 
     @classmethod
@@ -77,15 +76,17 @@ class Generator(torch.Module):
         cls.model_name = name
 
     @classmethod
-    def test_epoch(cls):
-        how_many = 32
-        noise = torch.randn(how_many, 100, 1, 1).to(device)
-        fsamples = cls.Gen(noise).cpu().detach()
-        for sample in range(how_many):
-            ax = plt.subplots(4, 8, sample + 1)
-            img = (fsamples.cpu().detach()[sample] / 2 + 0.5).permulate(1, 2, 0)
+    def see_output(cls):
+        noise = torch.randn(32, 100).to(device=device)
+        fake_samples = cls.Gen(noise).cpu().detach()
+        plt.figure(dpi=100, figsize=(20, 10))
+        for i in range(32):
+            ax = plt.subplot(4, 8, i + 1)
+            img = (fake_samples[i] / 2 + 0.5).reshape(28, 28)
             plt.imshow(img)
             plt.xticks([])
             plt.yticks([])
-        plt.subplots_adjust(hspace=-0.6)
         plt.show()
+
+    def train_G(self):
+        pass
